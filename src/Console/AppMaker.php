@@ -1,6 +1,6 @@
 <?php
 
-namespace AmiKavousi\AppMaker\src\Console;
+namespace AmiKavousi\AppMaker\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;

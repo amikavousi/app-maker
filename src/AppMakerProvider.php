@@ -2,7 +2,7 @@
 
 namespace AmiKavousi\AppMaker;
 
-use AmiKavousi\AppMaker\src\Console\AppMaker;
+use AmiKavousi\AppMaker\Console\AppMaker;
 use Illuminate\Support\ServiceProvider;
 
 class AppMakerProvider extends ServiceProvider
