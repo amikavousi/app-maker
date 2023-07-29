@@ -1,6 +1,6 @@
 <?php
 
-namespace AmiKavousi\AppMaker\provider;
+namespace AmiKavousi\AppMaker;
 
 use AmiKavousi\AppMaker\src\Console\AppMaker;
 use Illuminate\Support\ServiceProvider;
