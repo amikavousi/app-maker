@@ -1,0 +1,25 @@
+{
+    "name": "amikavousi/app-maker",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "AmiKavousi\\AppMaker\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AmiKavousi\\AppMaker\\AppMakerProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "amin",
+            "email": "amikavousi@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
