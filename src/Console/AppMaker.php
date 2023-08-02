@@ -24,6 +24,12 @@ class AppMaker extends Command
      */
     protected $description = 'with this command you can create your app for modular laravel projects';
 
+
+    private $appName ;
+    private $appPath ;
+    const ALERT_MESSAGE = 'Please Check your files Before you start And pay attention to TODO: in Example files.
+        If there is any issue, please report it to us : amikavousi@gmail.com';
+
     /**
      * Create a new command instance.
      *
@@ -39,76 +45,101 @@ class AppMaker extends Command
     {
         $bar = $this->output->createProgressBar(100);
 
+        $this->appName = Str::studly(ucfirst($this->argument('name')));
 
-        $appName = Str::studly(ucfirst($this->argument('name')));
-        $validator = Validator::make([$appName], ['alpha']);
+        $validator = Validator::make([$this->appName], ['alpha']);
         if ($validator->fails()) {
             throw new \Exception('Invalid App NAME! try like: "Post, Admin, SuperAdmin"');
         }
 
         // this is your Modules path.
-        $appPath = base_path("Modules/" . $appName);
+        $this->appPath = base_path("Modules/" . $this->appName);
 
-        if (file_exists($appPath)) {
-            throw new \Exception("the $appName dir in $appPath is already EXIST");
+
+        if (file_exists($this->appPath)) {
+            throw new \Exception("the $this->appName dir in $this->appPath is already EXIST");
         }
 
         // make App Dir
-        (new Filesystem())->ensureDirectoryExists($appPath);
+        (new Filesystem())->ensureDirectoryExists($this->appPath);
 
         // provider...
-        (new Filesystem())->ensureDirectoryExists($appPath . '/Provider');
-        (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Provider/ExampleProvider.php',
-            $appPath . '/Provider/' . ucfirst($appName) . 'Provider.php');
-        (new Filesystem())->replaceInFile('Example', ucfirst($appName), $appPath . '/Provider/' . ucfirst($appName) . 'Provider.php');
-        (new Filesystem())->replaceInFile('AppPath', 'Modules/' . ucfirst($appName), $appPath . '/Provider/' . ucfirst($appName) . 'Provider.php');
+        $this->createProvider();
 
-
-
-        // rotes..
-        (new Filesystem())->ensureDirectoryExists($appPath . '/routes');
-        (new Filesystem())->copy(__DIR__ . '/../../stubs/app/routes/web.php', $appPath . '/routes/web.php');
-        (new Filesystem())->replaceInFile('Example', ucfirst($appName), $appPath . '/routes/web.php');
-
+        // Routes..
+        $this->createRoute();
 
         // Model...
-        (new Filesystem())->ensureDirectoryExists($appPath . '/Model');
-        (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Model/Example.php', $appPath . '/Model/' . $appName . '.php');
-        (new Filesystem())->replaceInFile('Example', $appName, $appPath . '/Model/' . $appName . '.php');
-
-
+        $this->createModel();
 
         //migration...
-        (new Filesystem())->ensureDirectoryExists($appPath . '/migrations');
-        Artisan::call("make:migration $appName --path=/Modules/$appName/migrations");
-
+        $this->createMigration();
 
         // Controller...
-        (new Filesystem())->ensureDirectoryExists($appPath . '/Controller');
-        (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Controller/ExampleController.php',
-            $appPath . '/Controller/' . $appName . 'Controller.php');
-        (new Filesystem())->replaceInFile('Example', $appName, $appPath . '/Controller/' . $appName . 'Controller.php');
-
-
+        $this->createController();
 
         // Middleware...
-        (new Filesystem())->ensureDirectoryExists($appPath . '/Middlewares');
-        (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Middlewares/ExampleValidation.php',
-            $appPath . '/Middlewares/' . $appName . 'Validation.php');
-        (new Filesystem())->replaceInFile('Example', $appName, $appPath . '/Middlewares/' . $appName . 'Validation.php');
-
+        $this->createMiddleware();
 
         // views...
-        (new Filesystem())->ensureDirectoryExists($appPath . '/resources');
-        (new Filesystem())->copy(__DIR__  . "/../../stubs/app/resources/Example.blade.php", $appPath . '/resources/' . $appName . '.blade.php');
-        (new Filesystem())->replaceInFile('Example', ucfirst($appName), $appPath . '/resources/' . ucfirst($appName) . '.blade.php');
-
+        $this->createViews();
 
 
         $this->info('** Everything is ready Build Something Amazing **');
-        $this->alert('Please Check your files Before you start And pay attention to TODO: in Example files.
-        If there is any issue, please report it to us : amikavousi@gmail.com');
+        $this->alert(self::ALERT_MESSAGE);
         $bar->finish();
         $this->newLine();
+    }
+
+    private function createProvider()
+    {
+        (new Filesystem())->ensureDirectoryExists($this->appPath . '/Provider');
+        (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Provider/ExampleProvider.php',
+            $this->appPath  . '/Provider/' . ucfirst($this->appName ) . 'Provider.php');
+        (new Filesystem())->replaceInFile('Example', ucfirst($this->appName ), $this->appPath  . '/Provider/' . ucfirst($this->appName ) . 'Provider.php');
+        (new Filesystem())->replaceInFile('AppPath', 'Modules/' . ucfirst($this->appName ), $this->appPath  . '/Provider/' . ucfirst($this->appName ) . 'Provider.php');
+    }
+
+    private function createRoute()
+    {
+        (new Filesystem())->ensureDirectoryExists($this->appPath . '/routes');
+        (new Filesystem())->copy(__DIR__ . '/../../stubs/app/routes/web.php', $this->appPath  . '/routes/web.php');
+        (new Filesystem())->replaceInFile('Example', ucfirst($this->appName ), $this->appPath  . '/routes/web.php');
+    }
+
+    private function createModel()
+    {
+        (new Filesystem())->ensureDirectoryExists($this->appPath  . '/Model');
+        (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Model/Example.php', $this->appPath  . '/Model/' . $this->appName  . '.php');
+        (new Filesystem())->replaceInFile('Example', $this->appName , $this->appPath  . '/Model/' . $this->appName  . '.php');
+    }
+
+    private function createMigration()
+    {
+        (new Filesystem())->ensureDirectoryExists($this->appPath . '/migrations');
+        Artisan::call("make:migration $this->appName --path=/Modules/$this->appName/migrations");
+    }
+
+    private function createController()
+    {
+        (new Filesystem())->ensureDirectoryExists($this->appPath . '/Controller');
+        (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Controller/ExampleController.php',
+            $this->appPath . '/Controller/' . $this->appName . 'Controller.php');
+        (new Filesystem())->replaceInFile('Example', $this->appName, $this->appPath . '/Controller/' . $this->appName . 'Controller.php');
+    }
+
+    private function createMiddleware()
+    {
+        (new Filesystem())->ensureDirectoryExists($this->appPath  . '/Middlewares');
+        (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Middlewares/ExampleValidation.php',
+            $this->appPath  . '/Middlewares/' . $this->appName  . 'Validation.php');
+        (new Filesystem())->replaceInFile('Example', $this->appName , $this->appPath  . '/Middlewares/' . $this->appName  . 'Validation.php');
+    }
+
+    private function createViews()
+    {
+        (new Filesystem())->ensureDirectoryExists($this->appPath  . '/resources');
+        (new Filesystem())->copy(__DIR__ . "/../../stubs/app/resources/Example.blade.php", $this->appPath  . '/resources/' . $this->appName  . '.blade.php');
+        (new Filesystem())->replaceInFile('Example', ucfirst($this->appName ), $this->appPath  . '/resources/' . ucfirst($this->appName ) . '.blade.php');
     }
 }
