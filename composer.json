@@ -1,7 +1,13 @@
 {
     "name": "amikavousi/app-maker",
+    "description": "Laravel modularizer, with this package you can create many app",
+    "keywords": ["laravel modular", "modular"],
     "type": "library",
     "license": "MIT",
+    "require": {
+        "php": "^7.3|^8.0",
+        "illuminate/filesystem": "^8.42|^9.0"
+    },
     "autoload": {
         "psr-4": {
             "AmiKavousi\\AppMaker\\": "src"
@@ -16,10 +22,9 @@
     },
     "authors": [
         {
-            "name": "amin",
+            "name": "Amin Kavousi",
             "email": "amikavousi@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
-    "require": {}
+    "minimum-stability": "dev"
 }
