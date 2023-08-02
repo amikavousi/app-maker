@@ -1,7 +1,7 @@
 {
     "name": "amikavousi/app-maker",
     "description": "Laravel modularizer, with this package you can create many app",
-    "keywords": ["laravel modular", "modular"],
+    "keywords": ["laravel modular", "modular", "app maker"],
     "type": "library",
     "license": "MIT",
     "require": {
