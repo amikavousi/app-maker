@@ -1,5 +1,5 @@
 # AppMaker
-With AppMaker You can create the Apps or Modules you want for your Laravel Application.
+AppMaker is a Laravel package that allows you to create custom apps or modules for your Laravel application.
 
 ## Installation
 Open your Terminal in your project dir and run:
