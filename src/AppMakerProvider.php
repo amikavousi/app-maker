@@ -3,6 +3,7 @@
 namespace AmiKavousi\AppMaker;
 
 use AmiKavousi\AppMaker\Console\AppMaker;
+use AmiKavousi\AppMaker\Console\AppMakerCommand;
 use Illuminate\Support\ServiceProvider;
 
 class AppMakerProvider extends ServiceProvider
@@ -25,7 +26,8 @@ class AppMakerProvider extends ServiceProvider
     public function boot()
     {
         $this->commands([
-            AppMaker::class
+            AppMaker::class,
+            AppMakerCommand::class
         ]);
     }
 }
