@@ -29,7 +29,7 @@ composer dump-autoload
 ![test.php](https://raw.githubusercontent.com/amikavousi/images/main/Screen%20Shot%202023-08-04%20at%2012.29.23%20AM.png)
 
 
-## Comands
+## Commands
 after you run `php artisan app:add -h` you will see a good documentation about commands:
 ```bash
 Description:
