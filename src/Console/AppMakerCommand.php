@@ -14,12 +14,13 @@ class AppMakerCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'app:add {appName}
-    {--c: Create Controller for your App}
-    {--M: Create Model for your App}
-    {--m: Create migration for your App}
-    {--middleware: Create Middleware for your App}
-    {name}';
+    protected $signature = 'app:add
+    {appName : Your App Dir Name}
+    {--c : Create Controller for your App}
+    {--M : Create Model for your App}
+    {--m : Create migration for your App}
+    {--middleware : Create Middleware for your App}
+    {name : Your File name}';
 
     /**
      * The console command description.
