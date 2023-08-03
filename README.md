@@ -1,5 +1,5 @@
 # AppMaker
-AppMaker is a Laravel package that allows you to create custom apps or modules for your Laravel application.
+With AppMaker You can create the Apps or Modules you want for your Laravel Application.
 
 ## Installation
 Open your Terminal in your project dir and run:
@@ -29,8 +29,8 @@ composer dump-autoload
 ![test.php](https://raw.githubusercontent.com/amikavousi/images/main/Screen%20Shot%202023-08-04%20at%2012.29.23%20AM.png)
 
 
-## Commands
-after you run `php artisan app:add -h` you will see a good documentation about commands:
+## Comands
+after you run `php artisan app:add -h` you will see a good documentation about commands and available **options**:
 ```bash
 Description:
   With this command you can add your Models or Controller or ... to your Apps.
@@ -49,6 +49,12 @@ Options:
   -m, --migration       Create migration for your App
   -w, --middleware      Create Middleware for your App
   -d, --validation      Create Validation Middleware for your App
+```
+For Example for add a new **Controller** to your **App** you can use this command:
+```bash
+php artisan app:add AppName -c FileNameForController
+-------------------------or--------------------------
+php artisan app:add AppName --controller FileName
 ```
 ## The last word
 We sincerely appreciate your consideration in giving us a **shining star** if you find our efforts valuable. 🫶🏻🌟🤍
