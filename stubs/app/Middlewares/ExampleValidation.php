@@ -45,6 +45,6 @@ class ExampleValidation
 
     private function getMessages()
     {
-        //Todo: Customize Your Rules
+        //Todo: Customize Your Validation Messages
     }
 }
