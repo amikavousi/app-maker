@@ -1,7 +1,7 @@
 {
     "name": "amikavousi/app-maker",
-    "description": "Laravel modularizer, with this package you can create many app",
-    "keywords": ["laravel modular", "modular", "app maker"],
+    "description": "AppMaker, designed to help modularize your Laravel project. With AppMaker, you can easily organize your code and improve your project's scalability.",
+    "keywords": ["laravel modular", "modular", "app maker", "modularize"],
     "type": "library",
     "license": "MIT",
     "require": {

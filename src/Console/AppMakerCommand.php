@@ -2,7 +2,7 @@
 
 namespace AmiKavousi\AppMaker\Console;
 
-use Facade\FlareClient\Stacktrace\File;
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
@@ -28,7 +28,7 @@ class AppMakerCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Add Models or Controllers or ... to your Laravel app with "php artisan app:add AppName -flag FileName" command.';
     /**
      * @var string
      */
@@ -91,7 +91,7 @@ class AppMakerCommand extends Command
             (new Filesystem())->replaceInFile("App\..\Modules\\$this->appName\Controller", "Modules\\$this->appName\Controller", $controller);
             $this->info('Successfully Created');
         } else {
-            throw new \Exception('Controller is Exist on ' . $controller);
+            throw new Exception('Controller is Exist on ' . $controller);
         }
     }
 
@@ -103,7 +103,7 @@ class AppMakerCommand extends Command
             (new Filesystem())->replaceInFile("App\..\Modules\\$this->appName\Model", "Modules\\$this->appName\Model", $model);
             $this->info('Successfully Created');
         } else {
-            throw new \Exception('Model is Exist on ' . $model);
+            throw new Exception('Model is Exist on ' . $model);
         }
     }
 
@@ -121,6 +121,8 @@ class AppMakerCommand extends Command
             Artisan::call("make:middleware $this->appPath/Middlewares/$this->fileName");
             (new Filesystem())->replaceInFile("App\..\Modules\\$this->appName\Middlewares", "Modules\\$this->appName\Middlewares", $middlewares);
             $this->info('Successfully Created');
+        } else {
+            throw new Exception('Validation is Exist on ' . $middlewares);
         }
     }
 
@@ -135,7 +137,7 @@ class AppMakerCommand extends Command
             (new Filesystem())->replaceInFile('Example', $this->fileName, $validation . $this->fileName . 'Validation.php');
             $this->info('Successfully Created');
         } else {
-            throw new \Exception('Validation is Exist on ' . $validation);
+            throw new Exception('Validation is Exist on ' . $validation);
         }
 
     }
