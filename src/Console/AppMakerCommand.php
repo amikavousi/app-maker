@@ -16,10 +16,11 @@ class AppMakerCommand extends Command
      */
     protected $signature = 'app:add
     {appName : Your App Dir Name}
-    {--c : Create Controller for your App}
-    {--M : Create Model for your App}
-    {--m : Create migration for your App}
-    {--middleware : Create Middleware for your App}
+    {--c|controller : Create Controller for your App}
+    {--M|model : Create Model for your App}
+    {--m|migration : Create migration for your App}
+    {--w|middleware : Create Middleware for your App}
+    {--d|validation : Create Validation Middleware for your App}
     {name : Your File name}';
 
     /**
@@ -63,16 +64,20 @@ class AppMakerCommand extends Command
         $this->appPath = "App\\\../Modules/" . $this->appName;
         $this->fileName = $this->argument('name');
 
-        if ($this->option('c')) {
+
+        if ($this->option('controller')) {
             $this->addController();
-        } elseif ($this->option('M')) {
+        } elseif ($this->option('model')) {
             $this->addModel();
-        } elseif ($this->option('m')) {
+        } elseif ($this->option('migration')) {
             $this->addMigrations();
         } elseif ($this->option('middleware')) {
             $this->addMiddleware();
+        } elseif ($this->option('validation')) {
+            $this->addValidation();
         } else {
             $this->error('command NotFound');
+            return 1;
         }
 
         return 0;
@@ -86,7 +91,7 @@ class AppMakerCommand extends Command
             (new Filesystem())->replaceInFile("App\..\Modules\\$this->appName\Controller", "Modules\\$this->appName\Controller", $controller);
             $this->info('Successfully Created');
         } else {
-            throw new \Exception('Controller is Exist on' . $controller);
+            throw new \Exception('Controller is Exist on ' . $controller);
         }
     }
 
@@ -98,7 +103,7 @@ class AppMakerCommand extends Command
             (new Filesystem())->replaceInFile("App\..\Modules\\$this->appName\Model", "Modules\\$this->appName\Model", $model);
             $this->info('Successfully Created');
         } else {
-            throw new \Exception('Model is Exist on' . $model);
+            throw new \Exception('Model is Exist on ' . $model);
         }
     }
 
@@ -116,8 +121,22 @@ class AppMakerCommand extends Command
             Artisan::call("make:middleware $this->appPath/Middlewares/$this->fileName");
             (new Filesystem())->replaceInFile("App\..\Modules\\$this->appName\Middlewares", "Modules\\$this->appName\Middlewares", $middlewares);
             $this->info('Successfully Created');
-        } else {
-            throw new \Exception('Middleware is Exist on' . $middlewares);
         }
+    }
+
+    private function addValidation()
+    {
+        $validation = base_path("Modules/$this->appName/Middlewares/");
+        if (!file_exists($validation . $this->fileName . 'Validation.php')) {
+            (new Filesystem())->ensureDirectoryExists($validation);
+            (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Middlewares/ExampleValidation.php',
+                $validation . $this->fileName . 'Validation.php');
+            (new Filesystem())->replaceInFile('AppName', $this->appName, $validation . $this->fileName . 'Validation.php');
+            (new Filesystem())->replaceInFile('Example', $this->fileName, $validation . $this->fileName . 'Validation.php');
+            $this->info('Successfully Created');
+        } else {
+            throw new \Exception('Validation is Exist on ' . $validation);
+        }
+
     }
 }

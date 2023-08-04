@@ -133,6 +133,7 @@ class AppMaker extends Command
         (new Filesystem())->ensureDirectoryExists($this->appPath  . '/Middlewares');
         (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Middlewares/ExampleValidation.php',
             $this->appPath  . '/Middlewares/' . $this->appName  . 'Validation.php');
+        (new Filesystem())->replaceInFile('AppName', $this->appName , $this->appPath  . '/Middlewares/' . $this->appName  . 'Validation.php');
         (new Filesystem())->replaceInFile('Example', $this->appName , $this->appPath  . '/Middlewares/' . $this->appName  . 'Validation.php');
     }
 
