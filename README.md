@@ -67,4 +67,6 @@ Our commitment is to promptly address any issues and create a delightful experie
 
 Your contributions through pull requests are truly cherished as we work together harmoniously to elevate this project to new heights. 👥
 
+So we conclude that it works 🌈 - Kian Pirfalak
+
 Support Email: **AmiKavousi@gmail.com**
