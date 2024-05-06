@@ -103,7 +103,7 @@ class AppMaker extends Command
 
         if (!file_exists($moudleServiceProviderFile)) {
             (new Filesystem())->ensureDirectoryExists($moudleServiceProviderPath);
-            (new Filesystem())->copy(__DIR__ . '/../../stubs/ModulesProvider/ModuleServiceProvider.php',
+            (new Filesystem())->copy(__DIR__ . '/../../stubs/app/ModulesProvider/ModuleServiceProvider.php',
                 $moudleServiceProviderFile);
             (new Filesystem())->replaceInFile('Example', ucfirst($this->appName ), $moudleServiceProviderFile);
         } else {

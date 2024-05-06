@@ -1,5 +1,6 @@
 # AppMaker
 With AppMaker You can create the Apps or Modules you want for your Laravel Application.
+<br><b>Version: 2.0.0 dev</b>
 
 ## Installation
 Open your Terminal in your project dir and run:
@@ -20,10 +21,10 @@ php artisan app:make AppName
 composer dump-autoload
 ```
 
-3) To access your added app, you must add your Service Provider located at ` Modules/YourAppName/Provider ` class to the `app.php` file in the 'config' directory:
+3) To access your added app, you must add your <b>Module Service Provider</b> located at ` Modules/ModulesProvider/ModulesServiceProvider.php` class to the `app.php` file in the 'config' directory:
 
-![app.php](https://raw.githubusercontent.com/amikavousi/images/main/carbon%20(1).png)
-
+![app.php](https://raw.githubusercontent.com/amikavousi/images/main/app-php-v2.png)
+know your Modules service provider add to <b>ModulesServiceProvider.php</b> automatically.
 4) To test your app, simply run ` php artisan serve ` in your terminal. Then, open your browser and visit `localhost:8000/AppName/AppName`. You will see:
 
 ![test.php](https://raw.githubusercontent.com/amikavousi/images/main/Screen%20Shot%202023-08-04%20at%2012.29.23%20AM.png)
