@@ -53,7 +53,7 @@ class AppMaker extends Command
         }
 
         // this is your Modules path.
-        $this->appPath = base_path("Modules/" . $this->appName);
+        $this->appPath = base_path("modules/" . $this->appName);
 
 
         if (file_exists($this->appPath)) {
@@ -63,7 +63,10 @@ class AppMaker extends Command
         // make App Dir
         (new Filesystem())->ensureDirectoryExists($this->appPath);
 
-        // provider...
+        // module provider...
+        $this->createModuleProvider();
+
+        // app provider...
         $this->createProvider();
 
         // Routes..
@@ -87,17 +90,49 @@ class AppMaker extends Command
 
         $this->info('** Everything is ready Build Something Amazing **');
         $this->alert(self::ALERT_MESSAGE);
+        $this->info('** test url: ' . 'http://127.0.0.1:8000/' . strtolower($this->appName) . '/test' . ' **');
+
         $bar->finish();
         $this->newLine();
+    }
+
+    private function createModuleProvider()
+    {
+        $moudleServiceProviderPath = base_path("modules/ModulesProvider");
+        $moudleServiceProviderFile = $moudleServiceProviderPath . '/ModuleServiceProvider.php';
+
+        if (!file_exists($moudleServiceProviderFile)) {
+            (new Filesystem())->ensureDirectoryExists($moudleServiceProviderPath);
+            (new Filesystem())->copy(__DIR__ . '/../../stubs/ModulesProvider/ModuleServiceProvider.php',
+                $moudleServiceProviderFile);
+            (new Filesystem())->replaceInFile('Example', ucfirst($this->appName ), $moudleServiceProviderFile);
+        } else {
+            $fileContent = (new Filesystem())->get($moudleServiceProviderFile);
+
+            $firsStrPosForNameSpace = strrpos($fileContent, 'use Modules\{') + strlen('use Modules\{');
+
+            $appServiceProviderClassNameSpace = ucfirst($this->appName) . '\Provider\\' . ucfirst($this->appName) . 'Provider';
+
+            $newFileContent = substr($fileContent, 0, $firsStrPosForNameSpace) . PHP_EOL . "\t" . $appServiceProviderClassNameSpace . ',' . "\t \t". substr($fileContent, $firsStrPosForNameSpace);
+
+            $firsStrPosForRegisterApp = strpos($newFileContent, ' $this->app->register(');
+
+            $appServiceProviderClass = $this->appName . 'Provider::class';
+
+            $newFileContent = substr($newFileContent, 0, $firsStrPosForRegisterApp) . '$this->app->register('. $appServiceProviderClass . ');' . PHP_EOL  . "\t \t". substr($newFileContent, $firsStrPosForRegisterApp);
+
+            (new Filesystem())->put($moudleServiceProviderFile, $newFileContent);
+        }
     }
 
     private function createProvider()
     {
         (new Filesystem())->ensureDirectoryExists($this->appPath . '/Provider');
         (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Provider/ExampleProvider.php',
-            $this->appPath  . '/Provider/' . ucfirst($this->appName ) . 'Provider.php');
-        (new Filesystem())->replaceInFile('Example', ucfirst($this->appName ), $this->appPath  . '/Provider/' . ucfirst($this->appName ) . 'Provider.php');
-        (new Filesystem())->replaceInFile('AppPath', 'Modules/' . ucfirst($this->appName ), $this->appPath  . '/Provider/' . ucfirst($this->appName ) . 'Provider.php');
+            $this->appPath  . '/Provider/' . ucfirst($this->appName) . 'Provider.php');
+        (new Filesystem())->replaceInFile('Example', ucfirst($this->appName), $this->appPath  . '/Provider/' . ucfirst($this->appName ) . 'Provider.php');
+        (new Filesystem())->replaceInFile('ROUTE-NAME', strtolower($this->appName), $this->appPath  . '/Provider/' . ucfirst($this->appName ) . 'Provider.php');
+        (new Filesystem())->replaceInFile('AppPath', 'Modules/' . ucfirst($this->appName), $this->appPath  . '/Provider/' . ucfirst($this->appName ) . 'Provider.php');
     }
 
     private function createRoute()

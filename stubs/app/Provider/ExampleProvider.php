@@ -31,9 +31,9 @@ class ExampleProvider extends ServiceProvider
 
     private function routeMap()
     {
-        Route::prefix('Example')
+        Route::prefix('ROUTE-NAME')
             ->middleware('web')
-            ->name('Example.')
+            ->name('ROUTE-NAME.')
             ->group(base_path('AppPath/routes/web.php'));
     }
 }
