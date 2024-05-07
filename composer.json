@@ -4,6 +4,16 @@
     "keywords": ["laravel modular", "modular", "app maker", "modularize"],
     "type": "library",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Amin Kavousi",
+            "email": "amikavousi@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/amikavousi/app-maker/issues",
+        "source": "https://github.com/amikavousi/app-maker"
+    },
     "require": {
         "php": "^7.3|^8.0",
         "illuminate/filesystem": "^8.42|^9.0",
@@ -23,11 +33,6 @@
             ]
         }
     },
-    "authors": [
-        {
-            "name": "Amin Kavousi",
-            "email": "amikavousi@gmail.com"
-        }
-    ],
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

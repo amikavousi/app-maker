@@ -1,6 +1,7 @@
 # AppMaker
 With AppMaker You can create the Apps or Modules you want for your Laravel Application.
-<br><b>Version: 2.0.0 dev</b>
+<br><b>Version: 1.0.0 </b>
+<br><b>php required Version: ^7.3|^8.0 </b>
 
 ## Installation
 Open your Terminal in your project dir and run:
