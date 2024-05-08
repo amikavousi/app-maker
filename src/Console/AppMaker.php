@@ -157,19 +157,19 @@ class AppMaker extends Command
 
     private function createController()
     {
-        (new Filesystem())->ensureDirectoryExists($this->appPath . '/Controller');
-        (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Controller/ExampleController.php',
-            $this->appPath . '/Controller/' . $this->appName . 'Controller.php');
-        (new Filesystem())->replaceInFile('Example', $this->appName, $this->appPath . '/Controller/' . $this->appName . 'Controller.php');
+        (new Filesystem())->ensureDirectoryExists($this->appPath . 'Http/Controller');
+        (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Http/Controller/ExampleController.php',
+            $this->appPath . 'Http/Controller/' . $this->appName . 'Controller.php');
+        (new Filesystem())->replaceInFile('Example', $this->appName, $this->appPath . 'Http/Controller/' . $this->appName . 'Controller.php');
     }
 
     private function createMiddleware()
     {
-        (new Filesystem())->ensureDirectoryExists($this->appPath  . '/Middlewares');
-        (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Middlewares/ExampleValidation.php',
-            $this->appPath  . '/Middlewares/' . $this->appName  . 'Validation.php');
-        (new Filesystem())->replaceInFile('AppName', $this->appName , $this->appPath  . '/Middlewares/' . $this->appName  . 'Validation.php');
-        (new Filesystem())->replaceInFile('Example', $this->appName , $this->appPath  . '/Middlewares/' . $this->appName  . 'Validation.php');
+        (new Filesystem())->ensureDirectoryExists($this->appPath  . 'Http/Middlewares');
+        (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Http/Middlewares/ExampleValidation.php',
+            $this->appPath  . 'Http/Middlewares/' . $this->appName  . 'Validation.php');
+        (new Filesystem())->replaceInFile('AppName', $this->appName , $this->appPath  . 'Http/Middlewares/' . $this->appName  . 'Validation.php');
+        (new Filesystem())->replaceInFile('Example', $this->appName , $this->appPath  . 'Http/Middlewares/' . $this->appName  . 'Validation.php');
     }
 
     private function createViews()

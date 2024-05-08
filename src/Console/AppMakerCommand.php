@@ -85,10 +85,10 @@ class AppMakerCommand extends Command
 
     private function addController()
     {
-        $controller = base_path("Modules/$this->appName/Controller/$this->fileName.php");
+        $controller = base_path("Modules/$this->appName/Http/Controller/$this->fileName.php");
         if (!file_exists($controller)) {
-            Artisan::call("make:controller $this->appPath/Controller/$this->fileName");
-            (new Filesystem())->replaceInFile("App\..\Modules\\$this->appName\Controller", "Modules\\$this->appName\Controller", $controller);
+            Artisan::call("make:controller $this->appPath/Http/Controller/$this->fileName");
+            (new Filesystem())->replaceInFile("App\..\Modules\\$this->appName\Controller", "Modules\\$this->appName\Http\Controller", $controller);
             $this->info('Successfully Created');
         } else {
             throw new Exception('Controller is Exist on ' . $controller);

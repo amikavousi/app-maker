@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "AmiKavousi\\AppMaker\\": "src"
+            "AmiKavousi\\AppMaker\\": "src/"
         }
     },
     "extra": {
