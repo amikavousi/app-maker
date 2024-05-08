@@ -21,6 +21,7 @@ class AppMakerCommand extends Command
     {--m|migration : Create migration for your App}
     {--w|middleware : Create Middleware for your App}
     {--d|validation : Create Validation Middleware for your App}
+    {--r|request : Create request for your App Controller}
     {name : Your File name}';
 
     /**
@@ -60,7 +61,7 @@ class AppMakerCommand extends Command
      */
     public function handle()
     {
-        $this->appName = $this->argument('appName');
+        $this->appName = ucfirst($this->argument('appName'));
         $this->appPath = "App\\\../Modules/" . $this->appName;
         $this->fileName = $this->argument('name');
 
@@ -75,6 +76,8 @@ class AppMakerCommand extends Command
             $this->addMiddleware();
         } elseif ($this->option('validation')) {
             $this->addValidation();
+        } elseif ($this->option('request')) {
+            $this->addRequest();
         } else {
             $this->error('command NotFound');
             return 1;
@@ -139,6 +142,17 @@ class AppMakerCommand extends Command
         } else {
             throw new Exception('Validation is Exist on ' . $validation);
         }
+    }
 
+    private function addRequest()
+    {
+        $request = base_path("Modules/$this->appName/Http/Requests/$this->fileName.php");
+        if (!file_exists($request)) {
+            Artisan::call("make:request $this->appPath/Http/Requests/$this->fileName");
+            (new Filesystem())->replaceInFile("App\..\Modules\\$this->appName\Http\Requests", "Modules\\$this->appName\Http\Requests", $request);
+            $this->info('Successfully Created');
+        } else {
+            throw new Exception('Middleware is Exist on ' . $request);
+        }
     }
 }
