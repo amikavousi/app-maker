@@ -88,7 +88,7 @@ class AppMakerCommand extends Command
         $controller = base_path("Modules/$this->appName/Http/Controller/$this->fileName.php");
         if (!file_exists($controller)) {
             Artisan::call("make:controller $this->appPath/Http/Controller/$this->fileName");
-            (new Filesystem())->replaceInFile("App\..\Modules\\$this->appName\Controller", "Modules\\$this->appName\Http\Controller", $controller);
+            (new Filesystem())->replaceInFile("App\..\Modules\\$this->appName\Http\Controller", "Modules\\$this->appName\Http\Controller", $controller);
             $this->info('Successfully Created');
         } else {
             throw new Exception('Controller is Exist on ' . $controller);
@@ -116,13 +116,13 @@ class AppMakerCommand extends Command
 
     private function addMiddleware()
     {
-        $middlewares = base_path("Modules/$this->appName/Middlewares/$this->fileName.php");
+        $middlewares = base_path("Modules/$this->appName/Http/Middlewares/$this->fileName.php");
         if (!file_exists($middlewares)) {
-            Artisan::call("make:middleware $this->appPath/Middlewares/$this->fileName");
-            (new Filesystem())->replaceInFile("App\..\Modules\\$this->appName\Middlewares", "Modules\\$this->appName\Middlewares", $middlewares);
+            Artisan::call("make:middleware $this->appPath/Http/Middlewares/$this->fileName");
+            (new Filesystem())->replaceInFile("App\..\Modules\\$this->appName\Http\Middlewares", "Modules\\$this->appName\Http\Middlewares", $middlewares);
             $this->info('Successfully Created');
         } else {
-            throw new Exception('Validation is Exist on ' . $middlewares);
+            throw new Exception('Middleware is Exist on ' . $middlewares);
         }
     }
 
