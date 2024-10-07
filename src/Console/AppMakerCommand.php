@@ -131,10 +131,10 @@ class AppMakerCommand extends Command
 
     private function addValidation()
     {
-        $validation = base_path("Modules/$this->appName/Middlewares/");
+        $validation = base_path("Modules/$this->appName/Http/Middlewares/");
         if (!file_exists($validation . $this->fileName . 'Validation.php')) {
             (new Filesystem())->ensureDirectoryExists($validation);
-            (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Middlewares/ExampleValidation.php',
+            (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Http/Middlewares/ExampleValidation.php',
                 $validation . $this->fileName . 'Validation.php');
             (new Filesystem())->replaceInFile('AppName', $this->appName, $validation . $this->fileName . 'Validation.php');
             (new Filesystem())->replaceInFile('Example', $this->fileName, $validation . $this->fileName . 'Validation.php');
