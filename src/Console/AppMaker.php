@@ -63,9 +63,6 @@ class AppMaker extends Command
         // make App Dir
         (new Filesystem())->ensureDirectoryExists($this->appPath);
 
-        // module provider...
-        $this->createModuleProvider();
-
         // app provider...
         $this->createProvider();
 
@@ -94,35 +91,6 @@ class AppMaker extends Command
 
         $bar->finish();
         $this->newLine();
-    }
-
-    private function createModuleProvider()
-    {
-        $moduleServiceProviderPath = base_path("modules/ModulesProvider");
-        $moduleServiceProviderFile = $moduleServiceProviderPath . '/ModuleServiceProvider.php';
-
-        if (!file_exists($moduleServiceProviderFile)) {
-            (new Filesystem())->ensureDirectoryExists($moduleServiceProviderPath);
-            (new Filesystem())->copy(__DIR__ . '/../../stubs/app/ModulesProvider/ModuleServiceProvider.php',
-                $moduleServiceProviderFile);
-            (new Filesystem())->replaceInFile('Example', ucfirst($this->appName ), $moduleServiceProviderFile);
-        } else {
-            $fileContent = (new Filesystem())->get($moduleServiceProviderFile);
-
-            $firsStrPosForNameSpace = strrpos($fileContent, 'use Modules\{') + strlen('use Modules\{');
-
-            $appServiceProviderClassNameSpace = ucfirst($this->appName) . '\Provider\\' . ucfirst($this->appName) . 'Provider';
-
-            $newFileContent = substr($fileContent, 0, $firsStrPosForNameSpace) . PHP_EOL . "\t" . $appServiceProviderClassNameSpace . ',' . "\t \t". substr($fileContent, $firsStrPosForNameSpace);
-
-            $firsStrPosForRegisterApp = strpos($newFileContent, ' $this->app->register(');
-
-            $appServiceProviderClass = $this->appName . 'Provider::class';
-
-            $newFileContent = substr($newFileContent, 0, $firsStrPosForRegisterApp) . '$this->app->register('. $appServiceProviderClass . ');' . PHP_EOL  . "\t \t". substr($newFileContent, $firsStrPosForRegisterApp);
-
-            (new Filesystem())->put($moduleServiceProviderFile, $newFileContent);
-        }
     }
 
     private function createProvider()
