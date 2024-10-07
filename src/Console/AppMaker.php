@@ -132,7 +132,7 @@ class AppMaker extends Command
             $this->appPath  . '/Provider/' . ucfirst($this->appName) . 'Provider.php');
         (new Filesystem())->replaceInFile('Example', ucfirst($this->appName), $this->appPath  . '/Provider/' . ucfirst($this->appName ) . 'Provider.php');
         (new Filesystem())->replaceInFile('ROUTE-NAME', strtolower($this->appName), $this->appPath  . '/Provider/' . ucfirst($this->appName ) . 'Provider.php');
-        (new Filesystem())->replaceInFile('AppPath', 'Modules/' . ucfirst($this->appName), $this->appPath  . '/Provider/' . ucfirst($this->appName ) . 'Provider.php');
+        (new Filesystem())->replaceInFile('AppPath', 'modules/' . ucfirst($this->appName), $this->appPath  . '/Provider/' . ucfirst($this->appName ) . 'Provider.php');
     }
 
     private function createRoute()
@@ -152,7 +152,7 @@ class AppMaker extends Command
     private function createMigration()
     {
         (new Filesystem())->ensureDirectoryExists($this->appPath . '/migrations');
-        Artisan::call("make:migration $this->appName --path=/Modules/$this->appName/migrations");
+        Artisan::call("make:migration $this->appName --path=/modules/$this->appName/migrations");
     }
 
     private function createController()
