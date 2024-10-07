@@ -62,7 +62,7 @@ class AppMakerCommand extends Command
     public function handle()
     {
         $this->appName = ucfirst($this->argument('appName'));
-        $this->appPath = "App\\\../Modules/" . $this->appName;
+        $this->appPath = "App\\\../modules/" . $this->appName;
         $this->fileName = $this->argument('name');
 
 

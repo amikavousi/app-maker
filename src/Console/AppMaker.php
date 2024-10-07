@@ -98,16 +98,16 @@ class AppMaker extends Command
 
     private function createModuleProvider()
     {
-        $moudleServiceProviderPath = base_path("modules/ModulesProvider");
-        $moudleServiceProviderFile = $moudleServiceProviderPath . '/ModuleServiceProvider.php';
+        $moduleServiceProviderPath = base_path("modules/ModulesProvider");
+        $moduleServiceProviderFile = $moduleServiceProviderPath . '/ModuleServiceProvider.php';
 
-        if (!file_exists($moudleServiceProviderFile)) {
-            (new Filesystem())->ensureDirectoryExists($moudleServiceProviderPath);
+        if (!file_exists($moduleServiceProviderFile)) {
+            (new Filesystem())->ensureDirectoryExists($moduleServiceProviderPath);
             (new Filesystem())->copy(__DIR__ . '/../../stubs/app/ModulesProvider/ModuleServiceProvider.php',
-                $moudleServiceProviderFile);
-            (new Filesystem())->replaceInFile('Example', ucfirst($this->appName ), $moudleServiceProviderFile);
+                $moduleServiceProviderFile);
+            (new Filesystem())->replaceInFile('Example', ucfirst($this->appName ), $moduleServiceProviderFile);
         } else {
-            $fileContent = (new Filesystem())->get($moudleServiceProviderFile);
+            $fileContent = (new Filesystem())->get($moduleServiceProviderFile);
 
             $firsStrPosForNameSpace = strrpos($fileContent, 'use Modules\{') + strlen('use Modules\{');
 
@@ -121,7 +121,7 @@ class AppMaker extends Command
 
             $newFileContent = substr($newFileContent, 0, $firsStrPosForRegisterApp) . '$this->app->register('. $appServiceProviderClass . ');' . PHP_EOL  . "\t \t". substr($newFileContent, $firsStrPosForRegisterApp);
 
-            (new Filesystem())->put($moudleServiceProviderFile, $newFileContent);
+            (new Filesystem())->put($moduleServiceProviderFile, $newFileContent);
         }
     }
 
