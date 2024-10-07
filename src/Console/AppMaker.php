@@ -63,9 +63,6 @@ class AppMaker extends Command
         // make App Dir
         (new Filesystem())->ensureDirectoryExists($this->appPath);
 
-        // module provider...
-        $this->createModuleProvider();
-
         // app provider...
         $this->createProvider();
 
@@ -96,34 +93,6 @@ class AppMaker extends Command
         $this->newLine();
     }
 
-    private function createModuleProvider()
-    {
-        $moudleServiceProviderPath = base_path("modules/ModulesProvider");
-        $moudleServiceProviderFile = $moudleServiceProviderPath . '/ModuleServiceProvider.php';
-
-        if (!file_exists($moudleServiceProviderFile)) {
-            (new Filesystem())->ensureDirectoryExists($moudleServiceProviderPath);
-            (new Filesystem())->copy(__DIR__ . '/../../stubs/app/ModulesProvider/ModuleServiceProvider.php',
-                $moudleServiceProviderFile);
-            (new Filesystem())->replaceInFile('Example', ucfirst($this->appName ), $moudleServiceProviderFile);
-        } else {
-            $fileContent = (new Filesystem())->get($moudleServiceProviderFile);
-
-            $firsStrPosForNameSpace = strrpos($fileContent, 'use Modules\{') + strlen('use Modules\{');
-
-            $appServiceProviderClassNameSpace = ucfirst($this->appName) . '\Provider\\' . ucfirst($this->appName) . 'Provider';
-
-            $newFileContent = substr($fileContent, 0, $firsStrPosForNameSpace) . PHP_EOL . "\t" . $appServiceProviderClassNameSpace . ',' . "\t \t". substr($fileContent, $firsStrPosForNameSpace);
-
-            $firsStrPosForRegisterApp = strpos($newFileContent, ' $this->app->register(');
-
-            $appServiceProviderClass = $this->appName . 'Provider::class';
-
-            $newFileContent = substr($newFileContent, 0, $firsStrPosForRegisterApp) . '$this->app->register('. $appServiceProviderClass . ');' . PHP_EOL  . "\t \t". substr($newFileContent, $firsStrPosForRegisterApp);
-
-            (new Filesystem())->put($moudleServiceProviderFile, $newFileContent);
-        }
-    }
 
     private function createProvider()
     {
@@ -132,7 +101,7 @@ class AppMaker extends Command
             $this->appPath  . '/Provider/' . ucfirst($this->appName) . 'Provider.php');
         (new Filesystem())->replaceInFile('Example', ucfirst($this->appName), $this->appPath  . '/Provider/' . ucfirst($this->appName ) . 'Provider.php');
         (new Filesystem())->replaceInFile('ROUTE-NAME', strtolower($this->appName), $this->appPath  . '/Provider/' . ucfirst($this->appName ) . 'Provider.php');
-        (new Filesystem())->replaceInFile('AppPath', 'Modules/' . ucfirst($this->appName), $this->appPath  . '/Provider/' . ucfirst($this->appName ) . 'Provider.php');
+        (new Filesystem())->replaceInFile('AppPath', 'modules/' . ucfirst($this->appName), $this->appPath  . '/Provider/' . ucfirst($this->appName ) . 'Provider.php');
     }
 
     private function createRoute()
@@ -152,24 +121,24 @@ class AppMaker extends Command
     private function createMigration()
     {
         (new Filesystem())->ensureDirectoryExists($this->appPath . '/migrations');
-        Artisan::call("make:migration $this->appName --path=/Modules/$this->appName/migrations");
+        Artisan::call("make:migration $this->appName --path=/modules/$this->appName/migrations");
     }
 
     private function createController()
     {
-        (new Filesystem())->ensureDirectoryExists($this->appPath . '/Controller');
-        (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Controller/ExampleController.php',
-            $this->appPath . '/Controller/' . $this->appName . 'Controller.php');
-        (new Filesystem())->replaceInFile('Example', $this->appName, $this->appPath . '/Controller/' . $this->appName . 'Controller.php');
+        (new Filesystem())->ensureDirectoryExists($this->appPath . '/Http/Controller');
+        (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Http/Controller/ExampleController.php',
+            $this->appPath . '/Http/Controller/' . $this->appName . 'Controller.php');
+        (new Filesystem())->replaceInFile('Example', $this->appName, $this->appPath . '/Http/Controller/' . $this->appName . 'Controller.php');
     }
 
     private function createMiddleware()
     {
-        (new Filesystem())->ensureDirectoryExists($this->appPath  . '/Middlewares');
-        (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Middlewares/ExampleValidation.php',
-            $this->appPath  . '/Middlewares/' . $this->appName  . 'Validation.php');
-        (new Filesystem())->replaceInFile('AppName', $this->appName , $this->appPath  . '/Middlewares/' . $this->appName  . 'Validation.php');
-        (new Filesystem())->replaceInFile('Example', $this->appName , $this->appPath  . '/Middlewares/' . $this->appName  . 'Validation.php');
+        (new Filesystem())->ensureDirectoryExists($this->appPath  . '/Http/Middlewares');
+        (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Http/Middlewares/ExampleValidation.php',
+            $this->appPath  . '/Http/Middlewares/' . $this->appName  . 'Validation.php');
+        (new Filesystem())->replaceInFile('AppName', $this->appName , $this->appPath  . '/Http/Middlewares/' . $this->appName  . 'Validation.php');
+        (new Filesystem())->replaceInFile('Example', $this->appName , $this->appPath  . '/Http/Middlewares/' . $this->appName  . 'Validation.php');
     }
 
     private function createViews()
