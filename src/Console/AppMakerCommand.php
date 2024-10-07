@@ -62,7 +62,7 @@ class AppMakerCommand extends Command
     public function handle()
     {
         $this->appName = ucfirst($this->argument('appName'));
-        $this->appPath = "App\\\../Modules/" . $this->appName;
+        $this->appPath = "App\\\../modules/" . $this->appName;
         $this->fileName = $this->argument('name');
 
 
@@ -88,7 +88,7 @@ class AppMakerCommand extends Command
 
     private function addController()
     {
-        $controller = base_path("Modules/$this->appName/Http/Controller/$this->fileName.php");
+        $controller = base_path("modules/$this->appName/Http/Controller/$this->fileName.php");
         if (!file_exists($controller)) {
             Artisan::call("make:controller $this->appPath/Http/Controller/$this->fileName");
             (new Filesystem())->replaceInFile("App\..\Modules\\$this->appName\Http\Controller", "Modules\\$this->appName\Http\Controller", $controller);
@@ -100,7 +100,7 @@ class AppMakerCommand extends Command
 
     private function addModel()
     {
-        $model = base_path("Modules/$this->appName/Model/$this->fileName.php");
+        $model = base_path("modules/$this->appName/Model/$this->fileName.php");
         if (!file_exists($model)) {
             Artisan::call("make:model $this->appPath/Model/$this->fileName");
             (new Filesystem())->replaceInFile("App\..\Modules\\$this->appName\Model", "Modules\\$this->appName\Model", $model);
@@ -112,14 +112,14 @@ class AppMakerCommand extends Command
 
     private function addMigrations()
     {
-        Artisan::call("make:migration $this->fileName --path=/Modules/$this->appName/migrations");
+        Artisan::call("make:migration $this->fileName --path=/modules/$this->appName/migrations");
         $this->info('Successfully Created');
 
     }
 
     private function addMiddleware()
     {
-        $middlewares = base_path("Modules/$this->appName/Http/Middlewares/$this->fileName.php");
+        $middlewares = base_path("modules/$this->appName/Http/Middlewares/$this->fileName.php");
         if (!file_exists($middlewares)) {
             Artisan::call("make:middleware $this->appPath/Http/Middlewares/$this->fileName");
             (new Filesystem())->replaceInFile("App\..\Modules\\$this->appName\Http\Middlewares", "Modules\\$this->appName\Http\Middlewares", $middlewares);
@@ -131,7 +131,7 @@ class AppMakerCommand extends Command
 
     private function addValidation()
     {
-        $validation = base_path("Modules/$this->appName/Middlewares/");
+        $validation = base_path("modules/$this->appName/Middlewares/");
         if (!file_exists($validation . $this->fileName . 'Validation.php')) {
             (new Filesystem())->ensureDirectoryExists($validation);
             (new Filesystem())->copy(__DIR__ . '/../../stubs/app/Middlewares/ExampleValidation.php',
@@ -146,7 +146,7 @@ class AppMakerCommand extends Command
 
     private function addRequest()
     {
-        $request = base_path("Modules/$this->appName/Http/Requests/$this->fileName.php");
+        $request = base_path("modules/$this->appName/Http/Requests/$this->fileName.php");
         if (!file_exists($request)) {
             Artisan::call("make:request $this->appPath/Http/Requests/$this->fileName");
             (new Filesystem())->replaceInFile("App\..\Modules\\$this->appName\Http\Requests", "Modules\\$this->appName\Http\Requests", $request);
