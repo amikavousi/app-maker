@@ -112,7 +112,7 @@ class AppMakerCommand extends Command
 
     private function addMigrations()
     {
-        Artisan::call("make:migration $this->fileName --path=/Modules/$this->appName/database/migrations");
+        Artisan::call("make:migration $this->fileName --path=/Modules/$this->appName/Database/migrations");
         $this->info('Successfully Created');
 
     }
