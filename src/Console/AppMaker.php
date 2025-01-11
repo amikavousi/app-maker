@@ -120,8 +120,8 @@ class AppMaker extends Command
 
     private function createMigration()
     {
-        (new Filesystem())->ensureDirectoryExists($this->appPath . '/database/migrations');
-        Artisan::call("make:migration $this->appName --path=/modules/$this->appName/database/migrations");
+        (new Filesystem())->ensureDirectoryExists($this->appPath . '/Database/migrations');
+        Artisan::call("make:migration $this->appName --path=/modules/$this->appName/Database/migrations");
     }
 
     private function createController()

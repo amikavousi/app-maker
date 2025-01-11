@@ -25,7 +25,7 @@ class ExampleProvider extends ServiceProvider
     public function boot()
     {
         $this->routeMap();
-        $this->loadMigrationsFrom(base_path('AppPath/migrations'));
+        $this->loadMigrationsFrom(base_path('AppPath/Database/migrations'));
         $this->loadViewsFrom(base_path('AppPath/resources'),'Example');
     }
 
